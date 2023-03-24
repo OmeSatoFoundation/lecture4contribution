@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>青梅の教科書のLaTeX</title>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./purple.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/lioshi.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+    <section>
+	<h1>青梅の教材のLaTeX</h1>
+    <h2>GitHubからome-docをcloneする</h2>
+    <p>ダラー($)はプロンプトを示しています。コピペするときは$を無視してターミナルにペーストしてください。</p>
+    <pre><code><div>
+    $ cd ~
+    $ git clone https://github.com/OmeSatoFoundaiton/ome-doc.git
+    </div></code></pre>
+    <h2>3章をタイプセットする</h2>
+    <pre><code><div>
+    $ cd ome-doc/03
+    $ llmk
+    </div></code></pre>
+    <p>次のコマンドを入力して生成したPDFを確認しましょう。</p>
+    <pre><code><div>
+    $ xdg-open text03.pdf
+    </div> </code></pre>
+    <p>もし全ての章をタイプセットしたい場合、以下のコマンドを入力します。</p>
+    <pre><code><div>
+    $ cd ~/ome-doc
+    $ set -e; for d in `seq 1 8`; do (cd 0$d; llmk; ); done
+    </div></code></pre>
+    </section>
+    <section>
+        <h2>演習7: ome-docの3章を一部変更する</h2>
+        <p>今回は例題として3章の図のサイズを変更する。</p>
+        <section>
+        <h3>課題</h3>
+        <p>次の画像のように作成中の2023年版の教科書は、2022年版に比べて画像が歪んでることがある。</p>
+        <div>
+            <div style="display:inline-block;">
+                <img src="./img/ome-doc2022_ch3.png"  style="zoom:0.5;">
+                <p><a href="https://ome-edu.nshimizu.com/index.php?plugin=attach&refer=FrontPage&openfile=第３回kyokasyo03%20%281%292022-1.pdf" target="_blank">2022年版の教科書の第3章</a>7ページ</p>
+            </div>
+            <div style="display:inline-block;">
+                <img src="./img/ome-doc2023_ch3.png"  style="zoom:0.5;">
+                <p>作成中の2023年版の教科書の第3章 6ページ</p>
+            </div>
+        </div>
+        <p>この演習では画像の歪みがなくなるように修正する。</p>
+        <h3>修正場所の検討</h3>
+        <p>まず3章のディレクトリに行き、修正用のブランチを作成する。</p>
+        <pre><code><div>
+        $ cd ~/ome-doc/03
+        $ git branch -c fix_ch3_img_size
+        $ git switch fix_ch3_img_size
+        </div></code></pre>
+        <p>git branchコマンドを用いてブランチを切り替えられたか確認しましょう。</p>
+        <pre><code><div>
+        $ git branch
+        </div></code></pre>
+        <p>次にテキストエディタを開き、該当する画像を埋め込んでいる行を見つけましょう。</p>
+        <p>該当する行を見つける方法として次の方法が考えられます。</p>
+        <ul>
+            <li>imgディレクトリに行き、該当する画像のファイルを探し、そのファイル名を手がかりにテキストエディタ上で検索をかける</li>
+            <li>画像の前後のテキストを手がかりにテキストエディタ上で検索をかける</li>
+        </ul>
+        <p>テキストエディタでの検索は、おそらくctrl-fでできるはず（未検証）。</p>
+        <p>該当する画像を埋め込んでいる行が369行目と373行目に見つかります。</p>
+        <div>
+            <div style="display:inline-block;">
+                <img src="./img/original_img008_img009.png"  style="zoom:0.5;">
+                <p>画像text03-008.png, text03-009.pngを埋め込んでいる369行目と373行目</p>
+            </div>
+        </div>
+        <p>画像が歪んでいる原因は、widthとheightの値を与えることで、歪んでしまうことが原因であると考えらます。</p>
+        text03-008.pngは幅(width) 1188px, 高さ(height) 636pxの画像で、width/heightの比率は1.8679である。
+        しかしLaTeXで与えてる値はwidth 17.006cm, heght 6.14cmで、width/heightの比率は2.7697である。
+        本来の画像と異なる比率を与えたことが、画像が歪んでいるように見える原因であると考えられる。
+        </section>
+        <section>
+            <h3>修正</h3>
+            <p>対処法としては、widthの大きさだけ指定し、画像の比率を保ったままheightの大きさを自動的に決める方法が妥当であると考えられます。</p>
+            <p>具体的には、widthを\linewidthと呼ばれるコマンドに置き換えます。</p>
+            <div>
+                <div style="display:inline-block;">
+                    <img src="./img/original_img008_img009.png"  style="zoom:0.5;">
+                    <p>元の画像text03-008.pngを埋め込んでいる369行目</p>
+                </div>
+                <div style="display:inline-block;">
+                    <img src="./img/fix_img008.png"  style="zoom:0.5;">
+                    <p>修正した画像text03-008.pngを埋め込んでいる369行目</p>
+                </div>
+            </div>
+
+            <div>
+                <div style="display:inline-block;">
+                    <img src="./img/ome-doc2023_ch3.png"  style="zoom:0.5;">
+                    <p>作成中の2023年版の教科書の第3章 6ページ</p>
+                </div>
+                <div style="display:inline-block;">
+                    <img src="./img/fix_ome-doc2023_ch3.png"  style="zoom:0.5;">
+                    <p>修正した2023年版の教科書の第3章 6ページ</p>
+                </div>
+            </div>
+
+            <p>このように画像のサイズが正しい比率に変わっています。</p>
+        </section>
+        <section>
+            <h3>やってみよう</h3>
+            <p>369行目の画像の比率も修正してみましょう。</p>
+        </section>
+        <section>
+            <h2>実際に教材のコントリビュートをするために</h2>
+            <p>演習では扱いませんが、実際に教材のコントリビュートをするためにはGitHub上にpull requestを作成する必要があります。</p>
+            <pre><code><div>
+            $ git branch
+            $ git status
+            $ git add text03.tex
+            $ git commit -m "fix text03 image size"
+            $ git push origin fix_ch3_img_size
+            </div></code></pre>
+            <p>これでGitHub上に<code>fix_ch3_img_size</code>ブランチが作成できたので、New pull requestをクリックしてpull requestを作成します。</p>
+            <p>pull requestには、変更点がわかるように内容を簡潔に書きます。言語は日本語か英語どちらでも構いません。</p>
+            <p>ここまでできれば一人前の青梅の教材のコントリビューターになります。</p>
+        </section>
+
+    </section>
+</body>
+</html>
