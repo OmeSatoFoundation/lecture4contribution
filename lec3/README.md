@@ -16,5 +16,4 @@
 `lecnote`には、講義ページの`latex.html`とそのページを装飾するためのCSSが置いてあります。
 
 ## CSS
-fix github-markdown-light.css from https://github.com/sindresorhus/github-markdown-css
-
+fix purple.css from https://github.com/hliu202/typora-purple-theme

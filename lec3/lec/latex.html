@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LaTeX入門ガイド</title>
-    <link rel="stylesheet" href="./github-markdown-light.css">
+    <link rel="stylesheet" href="./purple.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/lioshi.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 
@@ -19,35 +19,60 @@
 
     <main>
         <section>
+            <h2>演習環境の構築</h2>
+            <p>GitHubからOmeSatoFoundation/lecture4contributionをcloneします。</p>
+            <pre><code class="shell"><div>
+            $ cd ~
+            $ git clone https://github.com/OmeSatoFoundation/lecture4contribution.git
+            </div></code></pre>
+        </section>
+
+        <section>
+            <h2>この講座でのLaTeXの使い方</h2>
+            <ol>
+                <li>テキストエディタを開いてLaTeXを書く</li>
+                <li>拡張子はtexで保存する</li>
+                <li>llmk.tomlを作成する</li>
+                <li>タイプセットし、PDFが生成される</li>
+            </ol>
+            <p>タイプセットとはプログラミングのコンパイルのようなことです。</p>
+            <p>ターミナルでtexとllmk.tomlファイルがあるディレクトリでllmkコマンドを叩くことでタイプセットが始まります。</p>
+            <p>詳しいLaTeXの歴史や仕組みを知りたい方はWikipediaの<a href="https://ja.wikipedia.org/wiki/LaTeX">LaTeX</a>を参照すること。</p>
+        </section>
+        <section>
             <h2>タイプセット可能な最低限のLaTeXコード</h2>
             <p>最初にタイプセット可能な最低限のLaTeXコードを紹介します。</p>
-            <pre><code class="latex">\documentclass{article}
+            <pre><code class="latex"><div>
+            \documentclass{article}
 
-\begin{document}
-    Hello!
-\end{document}
-            </code></pre>
+            \begin{document}
+                Hello!
+            \end{document}
+            </div></code></pre>
             </p>
         </section>
         <section>
             <h2>演習1: 初めてのタイプセット</h2>
-            <p>`~/lecture4contribution/lec3/exe/`に移動し、上記のLaTeXコードをファイル名`sample.tex`にし、保存します。</p>
-            <p>またタイプセットを可能にするために、次のコードを`llmk.toml`というファイルに保存します。</p>
-            <pre><code class="toml">latex = "platex"
-dvipdf = "dvipdfm"
-source = "sample.tex"
+            <p><code>~/lecture4contribution/lec3/exe/</code>に移動し、上記のLaTeXコードをファイル名<code>sample.tex</code>にし、保存します。</p>
+            <p>またタイプセットを可能にするために、次のコードを<code>llmk.toml</code>というファイルに保存します。</p>
+            <pre><code class="toml"><div>
+            latex = "platex"
+            dvipdf = "dvipdfm"
+            source = "sample.tex"
 
-sequence = ["latex", "dvipdf"] # Skip bibtex and makeindex
-            </code></pre>
-            <p>`sample.tex`と`llmk.toml`を作成したら、`llmk`コマンドを入力します。</p>
-            <p>コマンドが正常に実行終了すると、作業ディレクトリ下に`sample.pdf`が生成されています。</p>
-            <p>`xdg-open sample.pdf`でPDFファイルを確認してみましょう。</p>
+            sequence = ["latex", "dvipdf"] # Skip bibtex and makeindex
+            </div></code></pre>
+            <p><code>sample.tex</code>と<code>llmk.toml</code>を作成したら、<code>llmk</code>コマンドを入力します。</p>
+            <p>コマンドが正常に実行終了すると、作業ディレクトリ下に<code>sample.pdf</code>が生成されています。</p>
+            <p><code>xdg-open sample.pdf</code>でPDFファイルを確認してみましょう。</p>
         </section>
 
         <section>
             <h2>ドキュメントクラス</h2>
             <p>LaTeXでドキュメントを作成するときは、まずドキュメントクラスを定義します。一般的なドキュメントクラスには、article、report、bookなどがあります。</p>
-            <pre><code class="latex">\documentclass{article}</code></pre>
+            <pre><code class="latex"><div>
+            \documentclass{article}
+            </div></code></pre>
         </section>
 
         <section>
@@ -55,26 +80,29 @@ sequence = ["latex", "dvipdf"] # Skip bibtex and makeindex
             <p> LaTeXの環境は、特定の機能やスタイリングを適用するために使用されるブロックです。環境は\begin{環境名}と\end{環境名}の間にコードを記述することで定義されます。以下に、documentとequationという2つの環境の例を用いて詳細に説明します。 </p>
             <h3> document環境 </h3>
             <p> document環境は、LaTeXドキュメントで最も基本的な環境であり、実際のドキュメントのコンテンツが記述される部分です。プリアンブルの後に来る\begin{document}と\end{document}の間に、テキスト、数式、図表、見出しなどのドキュメント要素が記述されます。LaTeXの環境はネスト（入れ子）することができるため、document環境の中にさまざまな他の環境を含めることができます。 </p>
-            <pre><code class="latex">\documentclass{article}
+            <pre><code class="latex"><div>
+            \documentclass{article}
 
-\begin{document}
-  ここにドキュメントの内容を記述します。
-\end{document}
-            </code></pre>
+            \begin{document}
+            ここにドキュメントの内容を記述します。
+            \end{document}
+            </div></code></pre>
 
             <h3>equation環境</h3>
             <p> equation環境は、数式を表示するための環境であり、document環境の中で使用されます。equation環境は、数式を中央揃えにし、自動的に数式番号を割り当てます。数式番号は、参照のために使用されることがあります。また、数式を記述する際には、LaTeXの数式モードであることが前提となります。 </p>
-            <pre><code class="latex">\documentclass{article}
-\usepackage{amsmath}
+            <pre><code class="latex"><div>
+            \documentclass{article}
+            \usepackage{amsmath}
 
-\begin{document}
+            \begin{document}
 
-\section{環境}
-    \begin{equation}
-        a^2 + b^2 = c^2
-    \end{equation}
+            \section{環境}
+                \begin{equation}
+                    a^2 + b^2 = c^2
+                \end{equation}
 
-\end{document}</code></pre>
+            \end{document}
+            </div></code></pre>
         </section>
 
         <section>
@@ -83,8 +111,10 @@ sequence = ["latex", "dvipdf"] # Skip bibtex and makeindex
             <p>
                 より詳しく説明すると、プリアンブルは、LaTeXドキュメントの冒頭部分で、ドキュメントクラス宣言の後に配置される領域です。プリアンブルでは、ドキュメント全体に適用される設定や、追加機能を提供するパッケージのインポートが行われます。
             </p>
-            <pre><code class="latex">\usepackage{amsmath}
-\usepackage{graphicx}</code></pre>
+            <pre><code class="latex"><div>
+            \usepackage{amsmath}
+            \usepackage{graphicx}
+            </div></code></pre>
 
             <p>
             以下に、プリアンブルで行う一般的な設定や操作をいくつか挙げます。
@@ -101,17 +131,18 @@ sequence = ["latex", "dvipdf"] # Skip bibtex and makeindex
         <section>
             <h2>演習2: プリアンブルを使用したタイプセット</h2>
             <p>演習1で作成したファイルにamsmathプリアンブルを追加し、数式を書く。</p>
-            <pre><code class="latex">\documentclass{article}
-\usepackage{amsmath}
+            <pre><code class="latex"><div>
+            \documentclass{article}
+            \usepackage{amsmath}
 
-\begin{document}
-    Hello!
-    \begin{equation}
-        e^{i\pi}+1=0
-    \end{equation}
-\end{document}
-            </code></pre>
-            <p>`llmk.toml`は既に用意してあるので、`llmk`コマンドを入力してタイプセットしましょう。コマンドが正常に終了したら`xdg-open sample.pdf`でPDFファイルを確認してみましょう。</p>
+            \begin{document}
+                Hello!
+                \begin{equation}
+                    e^{i\pi}+1=0
+                \end{equation}
+            \end{document}
+            </div></code></pre>
+            <p><code>llmk.toml</code>は既に用意してあるので、<code>llmk</code>コマンドを入力してタイプセットしましょう。コマンドが正常に終了したら<code>xdg-open sample.pdf</code>でPDFファイルを確認してみましょう。</p>
             <p>もし余裕があれば他の数式表現を試してみましょう(参考: <a href="https://hwb.ecc.u-tokyo.ac.jp/wp/applications-2/latex/math/">数式の書き方</a>)</p>
         </section>
 
@@ -124,235 +155,248 @@ sequence = ["latex", "dvipdf"] # Skip bibtex and makeindex
         <section>
             <h2>改行</h2>
             <p>LaTeXで改行するには、\\記号を使用します。</p>
-            <pre><code class="latex">
-行1 \\
-行2
-	    </code></pre>
+            <pre><code class="latex"><div>
+            行1 \\
+            行2
+            </div></code></pre>
         </section>
 
         <section>
             <h2>タイトル</h2>
             <p>ドキュメントのタイトルを設定するには、\title、\author、\date、\maketitleコマンドを使用します。</p>
-            <pre><code class="latex">
-\title{タイトル}
-\author{著者}
-\date{日付}
-\begin{document}
-\maketitle
-           </code></pre>
+            <pre><code class="latex"><div>
+            \title{タイトル}
+            \author{著者}
+            \date{日付}
+            \begin{document}
+            \maketitle
+            </div></code></pre>
         </section>
 
         <section>
             <h2>演習3: タイトルを追加</h2>
             <p>演習2で作成したファイルにタイトルを追加する</p>
-<pre><code class="latex">\documentclass{article}
-\usepackage{amsmath}
+            <pre><code class="latex"><div>
+            \documentclass{article}
+            \usepackage{amsmath}
 
-\title{タイトル}
-\author{著者}
-\date{日付}
+            \title{タイトル}
+            \author{著者}
+            \date{日付}
 
-\begin{document}
-    \maketitle
-    \newpage
+            \begin{document}
+                \maketitle
+                \newpage
 
-    Hello!
-    \begin{equation}
-        e^{i\pi}+1=0
-    \end{equation}
-\end{document}</code></pre>
-            <p>`llmk.toml`は既に用意してあるので、`llmk`コマンドを入力してタイプセットしましょう。コマンドが正常に終了したら`xdg-open sample.pdf`でPDFファイルを確認してみましょう。</p>
+                Hello!
+                \begin{equation}
+                    e^{i\pi}+1=0
+                \end{equation}
+            \end{document}
+            </div></code></pre>
+            <p><code>llmk.toml</code>は既に用意してあるので、<code>llmk</code>コマンドを入力してタイプセットしましょう。コマンドが正常に終了したら<code>xdg-open sample.pdf</code>でPDFファイルを確認してみましょう。</p>
         </section>
 
         <section>
             <h2>見出し</h2>
             <p>LaTeXで見出しを作成するには、\section、\subsection、\subsubsectionコマンドを使用します。</p>
-            <pre><code class="latex">
-\section{セクション1}
-\subsection{サブセクション1}
-\subsubsection{サブサブセクション1}
-	   </code></pre>
+            <pre><code class="latex"><div>
+            \section{セクション1}
+            \subsection{サブセクション1}
+            \subsubsection{サブサブセクション1}
+            </div></code></pre>
         </section>
 
         <section>
             <h2>演習4: 見出しを追加</h2>
             <p>演習3で作成したファイルに見出しを追加する</p>
-<pre><code class="latex">\documentclass{article}
-\usepackage{amsmath}
+            <pre><code class="latex"><div>
+            \documentclass{article}
+            \usepackage{amsmath}
 
-\title{タイトル}
-\author{著者}
-\date{日付}
+            \title{タイトル}
+            \author{著者}
+            \date{日付}
 
-\begin{document}
-    \maketitle
-    \newpage
+            \begin{document}
+                \maketitle
+                \newpage
 
-    \section{Hello World}
-    Hello!
-    \subsection{数式表現}
-    \begin{equation}
-        e^{i\pi}+1=0
-    \end{equation}
+                \section{Hello World}
+                Hello!
+                \subsection{数式表現}
+                \begin{equation}
+                    e^{i\pi}+1=0
+                \end{equation}
 
-    \subsection{箇条書き}
-    % 箇条書きの場所
+                \subsection{箇条書き}
+                % 箇条書きの場所
 
-    \subsection{表}
-    % 表の場所
+                \subsection{表}
+                % 表の場所
 
-    \subsection{画像}
-    % 画像の場所
-\end{document}</code></pre>
-            <p>`llmk.toml`は既に用意してあるので、`llmk`コマンドを入力してタイプセットしましょう。コマンドが正常に終了したら`xdg-open sample.pdf`でPDFファイルを確認してみましょう。</p>
+                \subsection{画像}
+                % 画像の場所
+            \end{document}
+            </div></code></pre>
+            <p><code>llmk.toml</code>は既に用意してあるので、<code>llmk</code>コマンドを入力してタイプセットしましょう。コマンドが正常に終了したら<code>xdg-open sample.pdf</code>でPDFファイルを確認してみましょう。</p>
         </section>
 
         <section>
             <h2>箇条書き</h2>
             <p>LaTeXで箇条書きリストを作成するには、itemize環境を使用します。リストの要素は\itemコマンドで指定します。</p>
-<pre><code class="latex">\begin{itemize}
-    \item 項目1
-    \item 項目2
-    \item 項目3
-\end{itemize}</code></pre>
+            <pre><code class="latex"><div>
+            \begin{itemize}
+                \item 項目1
+                \item 項目2
+                \item 項目3
+            \end{itemize}
+            </div></code></pre>
         </section>
-
  
     <section>
         <h2>表</h2>
         <p>LaTeXで表を作成するには、table環境とtabular環境を使用します。</p>
-        <pre><code class="latex">\begin{table}[htbp]
-\centering
-\caption{サンプル表}
-\begin{tabular}{|l|c|r|}
-\hline
-    左揃え & 中央揃え & 右揃え \\
-    \hline
-    1 & 2 & 3 \\
-    \hline
-    4 & 5 & 6 \\
-    \hline
-\end{tabular}
-\end{table}</code></pre>
+        <pre><code class="latex"><div>
+        \begin{table}[htbp]
+        \centering
+        \caption{サンプル表}
+        \begin{tabular}{|l|c|r|}
+        \hline
+            左揃え & 中央揃え & 右揃え \\
+            \hline
+            1 & 2 & 3 \\
+            \hline
+            4 & 5 & 6 \\
+            \hline
+        \end{tabular}
+        \end{table}
+        </div></code></pre>
     </section>
 
     <section>
             <h2>演習5: 箇条書きと表を追加</h2>
             <p>演習4で作成したファイルに箇条書きと表を追加する</p>
-<pre><code class="latex">\documentclass{article}
-\usepackage{amsmath}
+            <pre><code class="latex"><div>
+            \documentclass{article}
+            \usepackage{amsmath}
 
-\title{タイトル}
-\author{著者}
-\date{日付}
+            \title{タイトル}
+            \author{著者}
+            \date{日付}
 
-\begin{document}
-    \maketitle
-    \newpage
+            \begin{document}
+                \maketitle
+                \newpage
 
-    \section{Hello World}
-    Hello!
-    \subsection{数式表現}
-    \begin{equation}
-        e^{i\pi}+1=0
-    \end{equation}
+                \section{Hello World}
+                Hello!
+                \subsection{数式表現}
+                \begin{equation}
+                    e^{i\pi}+1=0
+                \end{equation}
 
-    \subsection{箇条書き}
-    % 箇条書きの場所
-    \begin{itemize}
-        \item りんご
-        \item ごりら
-        \item らっぱ
-    \end{itemize}
+                \subsection{箇条書き}
+                % 箇条書きの場所
+                \begin{itemize}
+                    \item りんご
+                    \item ごりら
+                    \item らっぱ
+                \end{itemize}
 
-    \subsection{表}
-    % 表の場所
-    \begin{table}[htbp]
-        \centering
-        \caption{サンプル表}
-        \begin{tabular}{|l|c|r|}
-            \hline
-            左揃え & 中央揃え & 右揃え \\
-            \hline
-            $\alpha$ & $\beta$ & $\gamma$ \\
-            \hline
-            alpha & beta & gamma \\
-            \hline
-        \end{tabular}
-    \end{table}
+                \subsection{表}
+                % 表の場所
+                \begin{table}[htbp]
+                    \centering
+                    \caption{サンプル表}
+                    \begin{tabular}{|l|c|r|}
+                        \hline
+                        左揃え & 中央揃え & 右揃え \\
+                        \hline
+                        $\alpha$ & $\beta$ & $\gamma$ \\
+                        \hline
+                        alpha & beta & gamma \\
+                        \hline
+                    \end{tabular}
+                \end{table}
 
-    \subsection{画像}
-    % 画像の場所
-\end{document}</code></pre>
-        <p>`llmk.toml`は既に用意してあるので、`llmk`コマンドを入力してタイプセットしましょう。コマンドが正常に終了したら`xdg-open sample.pdf`でPDFファイルを確認してみましょう。</p>
+                \subsection{画像}
+                % 画像の場所
+            \end{document}
+            </div></code></pre>
+        <p><code>llmk.toml</code>は既に用意してあるので、<code>llmk</code>コマンドを入力してタイプセットしましょう。コマンドが正常に終了したら<code>xdg-open sample.pdf</code>でPDFファイルを確認してみましょう。</p>
     </section>
 
     <section>
         <h2>画像</h2>
         <p>LaTeXで画像を挿入するには、dvipdfmxオプションをつけたgraphicsプリアンブル、figure環境、\includegraphicsコマンドを使用します。</p>
-<pre><code class="latex">\documentclass{article}
-\usepackage[dvipdfmx]{graphicx}
+        <pre><code class="latex"><div>
+        \documentclass{article}
+        \usepackage[dvipdfmx]{graphicx}
 
-\begin{document}
-    \includegraphics[width=\linewidth]{akabeko.jpg}
-\end{document} </code></pre>
+        \begin{document}
+            \includegraphics[width=\linewidth]{akabeko.jpg}
+        \end{document}
+        </div></code></pre>
         <p>dvipdfmxの詳しい説明に関しては<a href="https://texwiki.texjp.org/?dvipdfmx%2F%E7%94%BB%E5%83%8F%E3%81%AE%E3%81%A8%E3%82%8A%E3%81%93%E3%81%BF">dvipdfmx における画像や PDF のとりこみ</a>を参考にすること。</p>
     </section>
 
     <section>
             <h2>演習6: 画像の追加</h2>
             <p>演習5で作成したファイルに画像を追加する。</p>
-<pre><code class="latex">\documentclass{article}
-\usepackage{amsmath}
-\usepackage[dvipdfmx]{graphicx}
+            <pre><code class="latex"><div>
+            \documentclass{article}
+            \usepackage{amsmath}
+            \usepackage[dvipdfmx]{graphicx}
 
-\title{タイトル}
-\author{著者}
-\date{日付}
+            \title{タイトル}
+            \author{著者}
+            \date{日付}
 
-\begin{document}
-    \maketitle
-    \newpage
+            \begin{document}
+                \maketitle
+                \newpage
 
-    \section{Hello World}
-    Hello!
-    \subsection{数式表現}
-    \begin{equation}
-        e^{i\pi}+1=0
-    \end{equation}
+                \section{Hello World}
+                Hello!
+                \subsection{数式表現}
+                \begin{equation}
+                    e^{i\pi}+1=0
+                \end{equation}
 
-    \subsection{箇条書き}
-    % 箇条書きの場所
-    \begin{itemize}
-        \item りんご
-        \item ごりら
-        \item らっぱ
-    \end{itemize}
+                \subsection{箇条書き}
+                % 箇条書きの場所
+                \begin{itemize}
+                    \item りんご
+                    \item ごりら
+                    \item らっぱ
+                \end{itemize}
 
-    \subsection{表}
-    % 表の場所
-    \begin{table}[htbp]
-        \centering
-        \caption{サンプル表}
-        \begin{tabular}{|l|c|r|}
-            \hline
-            左揃え & 中央揃え & 右揃え \\
-            \hline
-            $\alpha$ & $\beta$ & $\gamma$ \\
-            \hline
-            alpha & beta & gamma \\
-            \hline
-        \end{tabular}
-    \end{table}
+                \subsection{表}
+                % 表の場所
+                \begin{table}[htbp]
+                    \centering
+                    \caption{サンプル表}
+                    \begin{tabular}{|l|c|r|}
+                        \hline
+                        左揃え & 中央揃え & 右揃え \\
+                        \hline
+                        $\alpha$ & $\beta$ & $\gamma$ \\
+                        \hline
+                        alpha & beta & gamma \\
+                        \hline
+                    \end{tabular}
+                \end{table}
 
-    \subsection{画像}
-    % 画像の場所
-    \begin{figure}
-        \includegraphics[width=\linewidth]{akabeko.jpg}
-        \caption{東京駅前の赤べこ}        
-    \end{figure}
-\end{document}</code></pre>
-            <p>`llmk.toml`は既に用意してあるので、`llmk`コマンドを入力してタイプセットしましょう。コマンドが正常に終了したら`xdg-open sample.pdf`でPDFファイルを確認してみましょう。</p>
+                \subsection{画像}
+                % 画像の場所
+                \begin{figure}
+                    \includegraphics[width=\linewidth]{akabeko.jpg}
+                    \caption{東京駅前の赤べこ}        
+                \end{figure}
+            \end{document}
+            </div></code></pre>
+        <p><code>llmk.toml</code>は既に用意してあるので、<code>llmk</code>コマンドを入力してタイプセットしましょう。コマンドが正常に終了したら<code>xdg-open sample.pdf</code>でPDFファイルを確認してみましょう。</p>
         </section>
 </main>
 
